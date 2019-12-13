@@ -42,7 +42,7 @@ public class CountryServiceImpl implements CountryService {
         return country.getCountryLanguages()
                 .stream()
                 .filter(CountryLanguage::isOfficial)
-                .sorted(Comparator.comparing(CountryLanguage::getPercentage))
+                .sorted(Comparator.comparing(CountryLanguage::getPercentage).reversed())
                 .map(CountryLanguage::getCountryLanguageKey)
                 .map(CountryLanguageKey::getLanguage)
                 .findFirst()
