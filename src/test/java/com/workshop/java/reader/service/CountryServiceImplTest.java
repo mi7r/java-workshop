@@ -1,6 +1,7 @@
 package com.workshop.java.reader.service;
 
 import com.workshop.java.reader.domain.Country;
+import com.workshop.java.reader.dto.CountryDTO;
 import com.workshop.java.reader.exception.CountryCodeNotFoundException;
 import com.workshop.java.reader.repository.CountryRepository;
 import org.junit.Before;
@@ -36,7 +37,7 @@ public class CountryServiceImplTest {
 
         when(countryRepository.findById(anyString())).thenReturn(countryOptional);
 
-        Optional<Country> countryToReturn = countryService.findCountryByCode("BHR");
+        CountryDTO countryToReturn = countryService.findCountryByCode("BHR");
 
         assertNotNull(countryToReturn);
         verify(countryRepository, times(1)).findById(anyString());
@@ -45,7 +46,7 @@ public class CountryServiceImplTest {
 
     @Test(expected = CountryCodeNotFoundException.class)
     public void getCountryByCountryCodeThrowCountryCodeNotFoundException(){
-        Optional<Country> countryOptional = countryService.findCountryByCode("ZZZ");
+        CountryDTO countryDTO = countryService.findCountryByCode("ZZZ");
     }
 
 }

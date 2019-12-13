@@ -3,10 +3,10 @@ package com.workshop.java.reader.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
-@NoArgsConstructor
+@Getter
 @Builder
 public class CountryDTO {
 
