@@ -12,6 +12,6 @@ public class CountryDTO {
     private String name;
     private String continent;
     private int population;
-    private int lifeExpectancy;
+    private double lifeExpectancy;
     private String language;
 }

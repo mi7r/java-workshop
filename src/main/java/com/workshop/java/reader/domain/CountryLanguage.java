@@ -23,6 +23,5 @@ public class CountryLanguage {
     @ManyToOne
     @MapsId(value = "countryCode")
     @JoinColumn(name = "country_code")
-    @JsonIgnore
     private Country country;
 }
