@@ -1,7 +1,7 @@
 package com.workshop.java.reader.service;
 
 import com.workshop.java.reader.domain.Country;
-import com.workshop.java.reader.exception.NotFoundException;
+import com.workshop.java.reader.exception.CountryCodeNotFoundException;
 import com.workshop.java.reader.repository.CountryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class CountryServiceImpl implements CountryService {
         Optional<Country> countryOptional = countryRepository.findById(code);
 
         if (!countryOptional.isPresent()) {
-            throw new NotFoundException("INVALID_COUNTRY_CODE");
+            throw new CountryCodeNotFoundException();
         }
         return countryOptional;
     }
