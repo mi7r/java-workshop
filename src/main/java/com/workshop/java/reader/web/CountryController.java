@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 public class CountryController {
+
     private final CountryService countryService;
 
     @GetMapping("/{code}")
-    public CountryDTO findCountryByCode(@PathVariable String code){
+    public CountryDTO findCountryByCode(@PathVariable String code) {
         return countryService.findCountryByCode(code);
     }
-
 }

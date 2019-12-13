@@ -1,6 +1,5 @@
 package com.workshop.java.reader.domain;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
