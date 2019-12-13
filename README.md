@@ -13,7 +13,7 @@ Run database:
 
 Build image with docker:
 
-`docker build -t countryreader`
+`docker build -t countryreader .`
 
 To run application:
 
