@@ -17,4 +17,4 @@ Build image with docker:
 
 To run application:
 
-`docker run -d -p8080:8080 countryreader`
+`docker run -d -p8080:8080 -e SPRING_DATASOURCE_URL='jdbc:postgresql://{container_name}:5432/world-db' countryreader`
