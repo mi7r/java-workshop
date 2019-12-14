@@ -41,7 +41,7 @@ class CountryControllerTest {
     @Test
     void findCountryByCode() throws Exception {
         CountryDTO countryDTO = new CountryDTO(
-                "Canada", "North America", 31147000, 79.4, "English");
+                "Canada", "North America", 31147000, 79, "English");
 
         when(countryService.findCountryByCode(anyString()))
                 .thenReturn(countryDTO);
