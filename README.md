@@ -9,7 +9,7 @@ To run application in Docker pass:
 
 Run database:
 
-`docker run -d -p5432:5432 ghusta/postgres_world_db:2.4`
+`docker run -d -p5432:5432 ghusta/postgres-world-db`
 
 Build image with docker:
 
