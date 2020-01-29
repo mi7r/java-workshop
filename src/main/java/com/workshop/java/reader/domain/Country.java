@@ -34,4 +34,7 @@ public class Country {
 
     @OneToMany(mappedBy = "country")
     private List<CountryLanguage> countryLanguages;
+
+    @OneToMany(mappedBy = "country")
+    private List<City> cities;
 }
