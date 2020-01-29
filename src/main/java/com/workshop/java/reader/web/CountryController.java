@@ -1,6 +1,7 @@
 package com.workshop.java.reader.web;
 
 import com.workshop.java.reader.dto.CountryDTO;
+import com.workshop.java.reader.dto.CountryGeographicalDTO;
 import com.workshop.java.reader.service.CountryService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,5 +17,10 @@ public class CountryController {
     @GetMapping("/{code}")
     public CountryDTO findCountryByCode(@PathVariable String code) {
         return countryService.findCountryByCode(code);
+    }
+
+    @GetMapping("/geo/{code}")
+    public CountryGeographicalDTO checkGeographyDataByCode(@PathVariable String code){
+        return countryService.checkGeographyDataByCode(code);
     }
 }

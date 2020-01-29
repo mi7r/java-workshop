@@ -28,6 +28,10 @@ public class Country {
 
     private int lifeExpectancy;
 
+    private String region;
+
+    private int surfaceArea;
+
     @OneToMany(mappedBy = "country")
     private List<CountryLanguage> countryLanguages;
 }
