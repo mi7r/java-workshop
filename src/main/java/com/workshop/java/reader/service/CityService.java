@@ -6,4 +6,6 @@ import java.util.Set;
 
 public interface CityService {
     Set<CityDTO> findAllCitiesByName(String name);
+
+    Set<CityDTO> findAllCitiesByCountryCode(String code);
 }

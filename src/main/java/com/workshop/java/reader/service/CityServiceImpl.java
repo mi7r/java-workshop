@@ -50,4 +50,18 @@ public class CityServiceImpl implements CityService {
 
         return convertText.toString();
     }
+
+    @Override
+    public Set<CityDTO> findAllCitiesByCountryCode(String code) {
+        Set<City> cities = new HashSet<>();
+
+        cityRepository.findAllByCountryCode(code.toUpperCase()).iterator().forEachRemaining(cities::add);
+        if (cities.isEmpty()){
+            throw new CityNotFoundException();
+        }
+
+        return cities.stream()
+                .map(converter::convert)
+                .collect(Collectors.toSet());
+    }
 }

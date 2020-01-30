@@ -15,8 +15,13 @@ public class CityController {
 
     private final CityService cityService;
 
-    @GetMapping("/city/{name}")
+    @GetMapping("/city/name/{name}")
     public Set<CityDTO> findAllCitiesByName(@PathVariable String name){
         return cityService.findAllCitiesByName(name);
+    }
+
+    @GetMapping("/city/code/{code}")
+    public Set<CityDTO> finAllCitiesByCountryCode(@PathVariable String code){
+        return cityService.findAllCitiesByCountryCode(code);
     }
 }

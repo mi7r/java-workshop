@@ -8,4 +8,6 @@ import java.util.List;
 public interface CityRepository extends CrudRepository<City, String> {
 
     List<City> findAllByName(String name);
+
+    List<City> findAllByCountryCode(String name);
 }
