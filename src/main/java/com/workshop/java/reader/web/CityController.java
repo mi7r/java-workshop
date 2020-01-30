@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Set;
+
 @RestController
 @AllArgsConstructor
 public class CityController {
@@ -14,7 +16,7 @@ public class CityController {
     private final CityService cityService;
 
     @GetMapping("/city/{name}")
-    public CityDTO findCityByName(@PathVariable String name){
-        return cityService.findCityByName(name);
+    public Set<CityDTO> findAllCitiesByName(@PathVariable String name){
+        return cityService.findAllCitiesByName(name);
     }
 }

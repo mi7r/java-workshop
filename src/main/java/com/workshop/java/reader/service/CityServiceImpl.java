@@ -1,5 +1,6 @@
 package com.workshop.java.reader.service;
 
+import com.workshop.java.reader.converters.CityToCityDTO;
 import com.workshop.java.reader.domain.City;
 import com.workshop.java.reader.dto.CityDTO;
 import com.workshop.java.reader.exception.CityNotFoundException;
@@ -7,28 +8,29 @@ import com.workshop.java.reader.repository.CityRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class CityServiceImpl implements CityService {
 
     private final CityRepository cityRepository;
+    private final CityToCityDTO converter;
 
     @Override
-    public CityDTO findCityByName(String name) {
-        Optional<City> cityOptional = cityRepository.findCityByName(name);
-        if (!cityOptional.isPresent()){
+    public Set<CityDTO> findAllCitiesByName(String name) {
+        Set<City> cities = new HashSet<>();
+
+        cityRepository.findAllByName(name).iterator().forEachRemaining(cities::add);
+        if (cities.isEmpty()) {
             throw new CityNotFoundException();
         }
 
-        City city = cityOptional.get();
-
-        return CityDTO.builder()
-                .name(city.getName())
-                .population(city.getPopulation())
-                .district(city.getDistrict())
-                .country(city.getCountry().getName())
-                .build();
+        return cities
+                .stream()
+                .map(converter::convert)
+                .collect(Collectors.toSet());
     }
 }
