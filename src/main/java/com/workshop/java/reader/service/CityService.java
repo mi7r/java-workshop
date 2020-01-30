@@ -8,4 +8,6 @@ public interface CityService {
     Set<CityDTO> findAllCitiesByName(String name);
 
     Set<CityDTO> findAllCitiesByCountryCode(String code);
+
+    Set<CityDTO> findByCountryCodeAndDistrict(String code, String district);
 }

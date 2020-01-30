@@ -4,6 +4,8 @@ import com.workshop.java.reader.converters.CityToCityDTO;
 import com.workshop.java.reader.domain.City;
 import com.workshop.java.reader.dto.CityDTO;
 import com.workshop.java.reader.exception.CityNotFoundException;
+import com.workshop.java.reader.exception.CountryCodeNotFoundException;
+import com.workshop.java.reader.exception.InvalidDistrictOrCountryCodeException;
 import com.workshop.java.reader.repository.CityRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -56,12 +58,30 @@ public class CityServiceImpl implements CityService {
         Set<City> cities = new HashSet<>();
 
         cityRepository.findAllByCountryCode(code.toUpperCase()).iterator().forEachRemaining(cities::add);
-        if (cities.isEmpty()){
-            throw new CityNotFoundException();
+        if (cities.isEmpty()) {
+            throw new CountryCodeNotFoundException();
         }
 
         return cities.stream()
                 .map(converter::convert)
                 .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<CityDTO> findByCountryCodeAndDistrict(String code, String source) {
+        Set<City> cities = new HashSet<>();
+
+        cityRepository
+                .findByCountryCodeAndDistrict(code.toUpperCase(), convertToTitleCase(source))
+                .iterator().forEachRemaining(cities::add);
+
+        if (cities.isEmpty()) {
+            throw new InvalidDistrictOrCountryCodeException();
+        }
+
+        return cities.stream()
+                .map(converter::convert)
+                .collect(Collectors.toSet());
+
     }
 }

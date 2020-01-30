@@ -10,4 +10,6 @@ public interface CityRepository extends CrudRepository<City, String> {
     List<City> findAllByName(String name);
 
     List<City> findAllByCountryCode(String name);
+
+    List<City> findByCountryCodeAndDistrict(String code, String district);
 }

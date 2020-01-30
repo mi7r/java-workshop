@@ -24,4 +24,9 @@ public class CityController {
     public Set<CityDTO> finAllCitiesByCountryCode(@PathVariable String code){
         return cityService.findAllCitiesByCountryCode(code);
     }
+
+    @GetMapping("/city/code/{code}/{district}")
+    public Set<CityDTO> findByCountryCodeAndDistrict(@PathVariable String code, @PathVariable String district){
+        return cityService.findByCountryCodeAndDistrict(code, district);
+    }
 }
