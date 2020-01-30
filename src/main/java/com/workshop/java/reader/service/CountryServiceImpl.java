@@ -1,5 +1,6 @@
 package com.workshop.java.reader.service;
 
+import com.workshop.java.reader.domain.City;
 import com.workshop.java.reader.domain.Country;
 import com.workshop.java.reader.domain.CountryLanguage;
 import com.workshop.java.reader.domain.CountryLanguageKey;
@@ -23,7 +24,7 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public CountryDTO findCountryByCode(String code) {
-        Optional<Country> countryOptional = countryRepository.findById(code);
+        Optional<Country> countryOptional = countryRepository.findById(code.toUpperCase());
 
         if (!countryOptional.isPresent()) {
             throw new CountryCodeNotFoundException();
@@ -55,7 +56,7 @@ public class CountryServiceImpl implements CountryService {
 
     @Override
     public CountryGeographicalDTO checkGeographyDataByCode(String code) {
-        Optional<Country> countryOptional = countryRepository.findById(code);
+        Optional<Country> countryOptional = countryRepository.findById(code.toUpperCase());
         if (!countryOptional.isPresent()){
             throw new CountryCodeNotFoundException();
         }
@@ -69,6 +70,7 @@ public class CountryServiceImpl implements CountryService {
                 .continent(country.getContinent())
                 .region(country.getRegion())
                 .languages(getAllLanguagesUsedInCountry(country))
+                .cities(getAllCitiesInCountry(country))
                 .build();
 
     }
@@ -79,6 +81,13 @@ public class CountryServiceImpl implements CountryService {
                 .sorted(Comparator.comparing(CountryLanguage::getPercentage).reversed())
                 .map(CountryLanguage::getCountryLanguageKey)
                 .map(CountryLanguageKey::getLanguage)
+                .collect(Collectors.toList());
+    }
+
+    private List<String> getAllCitiesInCountry(Country country){
+        return country.getCities()
+                .stream()
+                .map(City::getName)
                 .collect(Collectors.toList());
     }
 }

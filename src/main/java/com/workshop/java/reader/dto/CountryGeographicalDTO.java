@@ -16,5 +16,6 @@ public class CountryGeographicalDTO {
     private int population;
     private int surfaceArea;
     private List<String> languages;
+    private List<String> cities;
 
 }
