@@ -23,7 +23,7 @@ public class CityServiceImpl implements CityService {
     public Set<CityDTO> findAllCitiesByName(String name) {
         Set<City> cities = new HashSet<>();
 
-        cityRepository.findAllByName(toTitleCase(name)).iterator().forEachRemaining(cities::add);
+        cityRepository.findAllByName(convertToTitleCase(name)).iterator().forEachRemaining(cities::add);
         if (cities.isEmpty()) {
             throw new CityNotFoundException();
         }
@@ -34,14 +34,14 @@ public class CityServiceImpl implements CityService {
                 .collect(Collectors.toSet());
     }
 
-    private String toTitleCase(String text){
+    private String convertToTitleCase(String text) {
         StringBuilder convertText = new StringBuilder(text.length());
         boolean nextWord = true;
 
-        for (char c: text.toCharArray()){
-            if (Character.isSpaceChar(c)){
+        for (char c : text.toCharArray()) {
+            if (Character.isSpaceChar(c)) {
                 nextWord = true;
-            }else if (nextWord){
+            } else if (nextWord) {
                 c = Character.toTitleCase(c);
                 nextWord = false;
             }
