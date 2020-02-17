@@ -44,7 +44,7 @@ class CountryControllerTest {
                 .thenReturn(countryDTO);
 
         mockMvc.perform(get("/{code}", "CAN")
-                .contentType("application/json"))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
