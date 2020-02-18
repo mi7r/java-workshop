@@ -2,9 +2,13 @@ package com.workshop.java.reader.web
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.workshop.java.reader.dto.CityDTO
+import com.workshop.java.reader.exception.CityNotFoundException
 import com.workshop.java.reader.service.CityService
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.ResultActions
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import spock.lang.Specification
@@ -30,6 +34,7 @@ class CityControllerTest extends Specification {
     String jsonLondonUK
     String jsonLondonCanada
     String jsonGdynia
+    String jsonException
 
     void setup() {
         cityService = Mock(CityService);
@@ -47,6 +52,7 @@ class CityControllerTest extends Specification {
         jsonLondonUK = mapper.writeValueAsString(londonUK)
         jsonLondonCanada = mapper.writeValueAsString(londonCanada)
         jsonGdynia = mapper.writeValueAsString(gdynia)
+        jsonException = mapper.writeValueAsString(new CityNotFoundException().localizedMessage)
     }
 
     void 'get all cities with given name with multiple result'() {
@@ -57,7 +63,7 @@ class CityControllerTest extends Specification {
         def response = [jsonLondonCanada, jsonLondonUK].toString()
 
         expect:
-        mockMvc.perform(get("/city/name/{name}","london")
+        mockMvc.perform(get("/city/name/{name}", "london")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(response))
@@ -71,13 +77,26 @@ class CityControllerTest extends Specification {
         and:
         def response = [jsonGdynia].toString()
 
-        expect:
+        when:
         mockMvc.perform(get("/city/name/{name}", "gdynia")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(response))
+
+        then:
+        noExceptionThrown()
     }
 
+    void 'get all cities method throw CityNotFoundException'() {
+        given:
+        cityService.findAllCitiesByName("wrongname") >> { throw new CityNotFoundException() }
 
+        when:
+        mockMvc.perform(get("/city/name/{name}", "wrongname"))
 
+        then:
+        HttpStatus.INTERNAL_SERVER_ERROR
+        status().reason("INVALID_CITY_NAME")
+
+    }
 }
