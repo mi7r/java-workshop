@@ -1,6 +1,7 @@
 package com.workshop.java.reader.web;
 
 import com.workshop.java.reader.dto.CityDTO;
+import com.workshop.java.reader.exception.CityNotFoundException;
 import com.workshop.java.reader.service.CityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,6 +50,18 @@ class CityControllerTest {
         mockMvc.perform(get("/city/name/{name}", "london")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void findAllCitiesByNameThrowCityNotFoundException() throws Exception {
+        when(cityService.findAllCitiesByName(anyString()))
+                .thenThrow(CityNotFoundException.class);
+
+        mockMvc.perform(get("/city/name/{name}", "badcity")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError())
+                .andExpect(status().reason("INVALID_CITY_NAME"));
+
     }
 
     @Test

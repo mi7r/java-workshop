@@ -36,23 +36,6 @@ public class CityServiceImpl implements CityService {
                 .collect(Collectors.toSet());
     }
 
-    private String convertToTitleCase(String text) {
-        StringBuilder convertText = new StringBuilder(text.length());
-        boolean nextWord = true;
-
-        for (char c : text.toCharArray()) {
-            if (Character.isSpaceChar(c)) {
-                nextWord = true;
-            } else if (nextWord) {
-                c = Character.toTitleCase(c);
-                nextWord = false;
-            }
-            convertText.append(c);
-        }
-
-        return convertText.toString();
-    }
-
     @Override
     public Set<CityDTO> findAllCitiesByCountryCode(String code) {
         Set<City> cities = new HashSet<>();
@@ -82,6 +65,22 @@ public class CityServiceImpl implements CityService {
         return cities.stream()
                 .map(converter::convert)
                 .collect(Collectors.toSet());
+    }
 
+    private String convertToTitleCase(String text) {
+        StringBuilder convertText = new StringBuilder(text.length());
+        boolean nextWord = true;
+
+        for (char c : text.toCharArray()) {
+            if (Character.isSpaceChar(c)) {
+                nextWord = true;
+            } else if (nextWord) {
+                c = Character.toTitleCase(c);
+                nextWord = false;
+            }
+            convertText.append(c);
+        }
+
+        return convertText.toString();
     }
 }
