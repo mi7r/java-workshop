@@ -2,6 +2,7 @@ package com.workshop.java.reader.web;
 
 import com.workshop.java.reader.dto.CityDTO;
 import com.workshop.java.reader.exception.CityNotFoundException;
+import com.workshop.java.reader.exception.CountryCodeNotFoundException;
 import com.workshop.java.reader.service.CityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -65,7 +66,31 @@ class CityControllerTest {
     }
 
     @Test
-    void finAllCitiesByCountryCode() {
+    void finAllCitiesByCountryCode() throws Exception {
+        Set<CityDTO> cities = new HashSet<>();
+        CityDTO gdynia = new CityDTO("Gdynia", "Pomorskie", 235521, "Poland");
+        CityDTO koszalin = new CityDTO("Koszalin", "Zachodni-Pomorskie", 112375, "Poland");
+        CityDTO wroclaw = new CityDTO("Wroclaw", "Dolnoslaskie", 636765, "Poland");
+        cities.add(gdynia);
+        cities.add(koszalin);
+        cities.add(wroclaw);
+
+        when(cityService.findAllCitiesByCountryCode(anyString())).thenReturn(cities);
+
+        mockMvc.perform(get("/city/code/{code}", "POL")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void findAllCitiesByCountryCodeThrowCountryNotFoundException() throws Exception {
+        when(cityService.findAllCitiesByCountryCode(anyString()))
+                .thenThrow(CountryCodeNotFoundException.class);
+
+        mockMvc.perform(get("/city/code/{code}", "ZZZ")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError())
+                .andExpect(status().reason("INVALID_COUNTRY_CODE"));
     }
 
     @Test
