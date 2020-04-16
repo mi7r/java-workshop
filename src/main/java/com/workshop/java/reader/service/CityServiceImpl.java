@@ -50,6 +50,12 @@ public class CityServiceImpl implements CityService {
                 .collect(Collectors.toSet());
     }
 
+    /*
+    * Method should be refactored or not used.
+    * Name of the District should be exactly the same like in database.
+    * For district name with '-' or more compound could not be found.
+    * That is because method convertToTitleCase fits for separated words.
+    * */
     @Override
     public Set<CityDTO> findByCountryCodeAndDistrict(String code, String source) {
         Set<City> cities = new HashSet<>();

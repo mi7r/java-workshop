@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Set;
+
 @RestController
 @AllArgsConstructor
 public class CountryController {
@@ -22,5 +24,10 @@ public class CountryController {
     @GetMapping("/geo/{code}")
     public CountryGeographicalDTO checkGeographyDataByCode(@PathVariable String code){
         return countryService.checkGeographyDataByCode(code);
+    }
+
+    @GetMapping("/region/{region}")
+    public Set<CountryDTO> findAllCountriesInGivenRegion(@PathVariable String region){
+        return countryService.findAllCountriesInGivenRegion(region);
     }
 }
